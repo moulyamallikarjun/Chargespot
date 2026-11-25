@@ -137,3 +137,5 @@ function plan(){
  let h=`<div class="route"><div><b>Bengaluru</b><div class="meta">Start · ${b}% battery</div></div>`;
  stops.forEach((k,i)=>{const s=S.filter(x=>x.st!=="down")[i%4];h+=`<div><b>Charge at ${s.name}</b><div class="meta">About ${k} km · ${s.kw} kW · 30 min stop</div></div>`});
  h+=`<div><b>${$("dest").value}</b>
+
+ 
