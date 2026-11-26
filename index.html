@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#12263A;--mute:#6B7A8A;--line:#E3E9EE;--bg:#F5F8FA;--card:#fff;--brand:#0B8F7B;--brand-d:#08705F;--free:#0B8F7B;--busy:#E0A030;--down:#D64545;--page:#DCE5EA}
+@media (prefers-color-scheme:dark){:root[data-auto]{--page:#0c1218}}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--page);display:flex;align-items:center;justify-content:center}
@@ -136,6 +137,22 @@ function plan(){
  while(left>r){km+=r*0.9;left=d-km;stops.push(Math.round(km));r=full}
  let h=`<div class="route"><div><b>Bengaluru</b><div class="meta">Start · ${b}% battery</div></div>`;
  stops.forEach((k,i)=>{const s=S.filter(x=>x.st!=="down")[i%4];h+=`<div><b>Charge at ${s.name}</b><div class="meta">About ${k} km · ${s.kw} kW · 30 min stop</div></div>`});
- h+=`<div><b>${$("dest").value}</b>
+ h+=`<div><b>${$("dest").value}</b><div class="meta">${d} km · ${stops.length?stops.length+" charging stop"+(stops.length>1?"s":""):"No stop needed"}</div></div></div>`;
+ $("res").innerHTML=h}
 
- 
+function insights(){
+ const a=[["Whitefield",92,1],["Electronic City",78,1],["Indiranagar",64,0],["Koramangala",55,0],["HSR Layout",31,0]];
+ return `<div class="top"><div class="logo">Charge<i>Spot</i></div></div><h2>Demand insights</h2><p class="sub">For planners: where drivers need more chargers</p>
+ ${a.map(r=>`<div class="bar"><em>${r[0]}</em><span class="${r[2]?'hot':''}" style="width:${r[1]*1.6}px"></span>${r[1]}</div>`).join("")}
+ <div class="card" style="margin-top:14px"><div class="grow"><b>Install here next</b><div class="meta">Whitefield and Electronic City have high demand and few working chargers.</div></div></div>
+ <div class="grid"><div class="stat"><span>Peak hours</span><b>6–9 pm</b></div><div class="stat"><span>Faulty chargers</span><b>1 of 5</b></div></div>
+ <p class="note">Sample data for prototype demonstration</p>`}
+
+function open_(id){cur=S.find(s=>s.id===id);slot=null;view="detail";render()}
+function render(){
+ $("screen").innerHTML=tab==="find"?(view==="detail"?detail():view==="done"?done():find()):tab==="trip"?trip():tab==="book"?bookingsV():insights();
+ $("screen").scrollTop=0;nav()}
+render();
+</script>
+</body>
+</html>
